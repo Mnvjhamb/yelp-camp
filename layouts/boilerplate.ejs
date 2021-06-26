@@ -43,6 +43,22 @@
             </li>
           </ul>
         </div>
+        <div class="ml-auto">
+          <ul class="navbar-nav">
+            <% if(!currentUser){ %>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+            <% } else {%>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </li>
+            <% } %>
+          </ul>
+        </div>
       </div>
     </nav>
     <div class="container"><%- body %></div>

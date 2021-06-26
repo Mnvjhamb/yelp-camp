@@ -18,6 +18,16 @@ const validateCampground = (req, res, next) => {
   }
 };
 
+const isLoggedIn = (req, res, next) => {
+  if (!req.isAuthenticated()) {
+    req.session.returnTo = req.originalUrl;
+    req.flash("error", "Please Sign In First");
+    res.redirect("/login");
+  } else {
+    next();
+  }
+};
+
 Router.get(
   "/",
   catchAsync(async (req, res, next) => {
@@ -26,7 +36,7 @@ Router.get(
   })
 );
 
-Router.get("/new", (req, res) => {
+Router.get("/new", isLoggedIn, (req, res) => {
   res.render("newcamp");
 });
 
@@ -45,6 +55,7 @@ Router.get(
 
 Router.post(
   "/",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const cg = await new Campground(req.body);
@@ -55,6 +66,7 @@ Router.post(
 );
 Router.put(
   "/:id",
+  isLoggedIn,
   validateCampground,
   catchAsync(async (req, res, next) => {
     const { error } = campgroundSchema.validate(req.body);
@@ -71,6 +83,7 @@ Router.put(
 );
 Router.delete(
   "/:id",
+  isLoggedIn,
   catchAsync(async (req, res, next) => {
     const { id } = req.params;
     await Campground.findByIdAndDelete(id);
@@ -81,6 +94,7 @@ Router.delete(
 
 Router.get(
   "/:id/update",
+  isLoggedIn,
   catchAsync(async (req, res, next) => {
     const campground = await Campground.findById(req.params.id);
     if (!campground) {

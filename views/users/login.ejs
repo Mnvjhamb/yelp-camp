@@ -1,0 +1,29 @@
+<% layout('.././layouts/boilerplate') %>
+<div class="row">
+  <%- include('../flash') %>
+  <div class="col-6 offset-3 mt-3">
+    <h1 class="display-3">Login</h1>
+    <form action="/login" method="POST">
+      <label class="form-label" for="username">Username</label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        id="username"
+        name="username"
+        autocomplete="off"
+      />
+      <br />
+      <label class="form-label" for="password">Password</label>
+      <input
+        required
+        class="form-control"
+        type="password"
+        id="password"
+        name="password"
+      />
+      <br />
+      <button class="btn btn-primary">Login</button>
+    </form>
+  </div>
+</div>
