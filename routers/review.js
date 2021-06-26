@@ -26,7 +26,7 @@ Router.delete(
     await Campground.findByIdAndUpdate(req.params.id, {
       $pull: { reviews: req.params.reviewId },
     });
-
+    req.flash("success", "Successfully deleted your Review");
     res.redirect("/campgrounds/" + req.params.id);
   })
 );
@@ -40,6 +40,7 @@ Router.post(
     await campground.reviews.push(review);
     await campground.save();
     await review.save();
+    req.flash("success", "Successfully added a Review");
     res.redirect(`/campgrounds/${req.params.id}`);
   })
 );
