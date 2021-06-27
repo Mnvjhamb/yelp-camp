@@ -1,25 +1,52 @@
 <% layout("../layouts/boilerplate") %>
 
-<h1>Fill the Details here</h1>
-
-<form action="/campgrounds" method="POST" novalidate class="needs-validation">
-  <label class="form-label" for="title">Title</label>
-  <input required class="form-control" type="text" id="title" name="title" />
-  <br />
-  <label class="form-label" for="price">Price</label>
-  <input required class="form-control" type="number" id="price" name="price" />
-  <br />
-  <label class="form-label" for="location">Location</label>
-  <input required class="form-control" type="text" id="title" name="location" />
-  <br />
-  <label class="form-label" for="description">Description</label>
-  <input
-    required
-    class="form-control"
-    type="text"
-    id="title"
-    name="description"
-  />
-  <br />
-  <button class="btn btn-primary">Add Camp</button>
-</form>
+<div class="row mt-3">
+  <div class="col-6 offset-3">
+    <%- include('./flash') %>
+    <h1 class="display-3">Fill the Details here</h1>
+    <form
+      action="/campgrounds"
+      method="POST"
+      novalidate
+      class="needs-validation"
+    >
+      <label class="form-label" for="title">Title</label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        id="title"
+        name="title"
+      />
+      <br />
+      <label class="form-label" for="price">Price</label>
+      <input
+        required
+        class="form-control"
+        type="number"
+        id="price"
+        name="price"
+      />
+      <br />
+      <label class="form-label" for="location">Location</label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        id="title"
+        name="location"
+      />
+      <br />
+      <label class="form-label" for="description">Description</label>
+      <input
+        required
+        class="form-control"
+        type="text"
+        id="title"
+        name="description"
+      />
+      <br />
+      <button class="btn btn-primary">Add Camp</button>
+    </form>
+  </div>
+</div>

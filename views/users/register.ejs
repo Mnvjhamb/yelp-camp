@@ -1,6 +1,7 @@
-<% layout('.././layouts/boilerplate') %> <%- include('../flash') %>
+<% layout('.././layouts/boilerplate') %>
 <div class="row">
   <div class="col-6 offset-3 mt-3">
+    <%- include('../flash') %>
     <h1 class="display-3">Register</h1>
     <form action="/register" method="POST" novalidate class="needs-validation">
       <label class="form-label" for="email">Email</label>

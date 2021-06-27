@@ -11,17 +11,18 @@
     </div>
     <div class="col-6">
       <h1 class="display-3"><%= campground.title %></h1>
+      <h4 class="display-6">Author: <%= campground.author.username %></h4>
       <h4 class="display-6">Price: $<%= campground.price %></h4>
       <h4 class="display-6">Location: <%= campground.location %></h4>
 
       <p><%= campground.description %></p>
-
+      <a class="btn btn-success" href="/campgrounds">All Camps</a>
+      <% if(currentUser && campground.author.equals(currentUser)) {%>
       <a
         class="btn btn-warning"
         href="/campgrounds/<%= campground._id %>/update "
         >Update</a
       >
-      <a class="btn btn-success" href="/campgrounds">All Camps</a>
       <form
         class="d-inline"
         action="/campgrounds/<%= campground._id %>?_method=DELETE"
@@ -29,11 +30,38 @@
       >
         <button class="btn btn-primary">DELETE</button>
       </form>
+      <% } %>
     </div>
   </div>
 </div>
 
 <div class="row">
+  <div class="col-5">
+    <% if(campground.reviews.length){ %>
+    <div class="display-6">Reviews</div>
+    <% } %> <% for(var review of campground.reviews){ %>
+    <div class="card m-3 p-2">
+      <div class="card-title">Rating: <%= review.rating %></div>
+      <h6 class="card-subtitle mb-2 text-muted">
+        By-<%= review.author.username %>
+      </h6>
+
+      <h5 class="card-body">Review: <%= review.body %></h5>
+      <% if(currentUser && currentUser.equals(review.author)){ %>
+      <div class="flex">
+        <form
+          class="d-inline"
+          method="POST"
+          action="/campgrounds/<%= campground._id %>/review/<%= review._id %>?_method=DELETE"
+        >
+          <button class="btn btn-danger">Delete</button>
+        </form>
+      </div>
+      <% } %>
+    </div>
+    <%}%>
+  </div>
+  <% if(currentUser){ %>
   <div class="d-flex col-6">
     <form
       class="m-4 needs-validation"
@@ -69,30 +97,5 @@
     </form>
   </div>
 
-  <div class="col-5">
-    <div class="display-6">Reviews</div>
-    <% for(var review of campground.reviews){ %>
-    <div class="card m-3 p-2">
-      <div class="card-title">Rating: <%= review.rating %></div>
-
-      <h5 class="card-body">Review: <%= review.body %></h5>
-      <div class="flex">
-        <form
-          class="d-inline"
-          method="POST"
-          action="/campgrounds/<%= campground._id %>/review/<%= review._id %>?_method=DELETE"
-        >
-          <button class="btn btn-danger">Delete</button>
-        </form>
-        <form
-          class="d-inline"
-          method="POST"
-          action="/campgrounds/<%= campground._id %>/review/<%= review._id %>?_method=PUT"
-        >
-          <button class="btn d-inline btn-warning">Edit</button>
-        </form>
-      </div>
-    </div>
-    <%}%>
-  </div>
+  <% } %>
 </div>
