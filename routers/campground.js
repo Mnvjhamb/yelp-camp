@@ -8,22 +8,21 @@ const {
   isLoggedIn,
 } = require("../middlewares/campground");
 
-Router.get("/", catchAsync(campground.index));
+Router.route("/")
+  .get(catchAsync(campground.index))
+  .post(isLoggedIn, validateCampground, catchAsync(campground.post));
 
 Router.get("/new", isLoggedIn, campground.new);
 
-Router.get("/:id", catchAsync(campground.show));
-
-Router.post("/", isLoggedIn, validateCampground, catchAsync(campground.post));
-
-Router.put(
-  "/:id",
-  isLoggedIn,
-  isAutherized,
-  validateCampground,
-  catchAsync(campground.update)
-);
-Router.delete("/:id", isLoggedIn, isAutherized, catchAsync(campground.delete));
+Router.route("/:id")
+  .get(catchAsync(campground.show))
+  .put(
+    isLoggedIn,
+    isAutherized,
+    validateCampground,
+    catchAsync(campground.update)
+  )
+  .delete(isLoggedIn, isAutherized, catchAsync(campground.delete));
 
 Router.get(
   "/:id/update",

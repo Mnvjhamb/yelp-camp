@@ -16,7 +16,6 @@
       <h4 class="display-6">Location: <%= campground.location %></h4>
 
       <p><%= campground.description %></p>
-      <a class="btn btn-success" href="/campgrounds">All Camps</a>
       <% if(currentUser && campground.author.equals(currentUser)) {%>
       <a
         class="btn btn-warning"
@@ -41,12 +40,14 @@
     <div class="display-6">Reviews</div>
     <% } %> <% for(var review of campground.reviews){ %>
     <div class="card m-3 p-2">
-      <div class="card-title">Rating: <%= review.rating %></div>
-      <h6 class="card-subtitle mb-2 text-muted">
-        By-<%= review.author.username %>
-      </h6>
+      <h6 class="card-title mb-2">By-<%= review.author.username %></h6>
+      <div class="card-title">
+        <p class="starability-result" data-rating="<%=review.rating%>"></p>
+      </div>
 
-      <h5 class="card-body">Review: <%= review.body %></h5>
+      <h5 class="card-body" style="color: rgb(148, 102, 228)">
+        <%= review.body %>
+      </h5>
       <% if(currentUser && currentUser.equals(review.author)){ %>
       <div class="flex">
         <form
@@ -72,15 +73,27 @@
     >
       <h1 class="display-4">Add a Review</h1>
       <div class="rating">
-        <label for="rating" class="form-label">Rating</label>
-        <input
-          type="range"
-          name="rating"
-          min="1"
-          max="5"
-          id="rating"
-          class="form-range"
-        />
+        <fieldset class="starability-basic">
+          <input
+            type="radio"
+            id="no-rate"
+            class="input-no-rate"
+            name="rating"
+            value="1"
+            checked
+            aria-label="No rating."
+          />
+          <input type="radio" id="first-rate1" name="rating" value="1" />
+          <label for="first-rate1" title="Terrible">1 star</label>
+          <input type="radio" id="first-rate2" name="rating" value="2" />
+          <label for="first-rate2" title="Not good">2 stars</label>
+          <input type="radio" id="first-rate3" name="rating" value="3" />
+          <label for="first-rate3" title="Average">3 stars</label>
+          <input type="radio" id="first-rate4" name="rating" value="4" />
+          <label for="first-rate4" title="Very good">4 stars</label>
+          <input type="radio" id="first-rate5" name="rating" value="5" />
+          <label for="first-rate5" title="Amazing">5 stars</label>
+        </fieldset>
       </div>
       <div class="review">
         <label for="review" class="form-label">Review</label>
