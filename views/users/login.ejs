@@ -1,8 +1,7 @@
-<% layout('.././layouts/boilerplate') %>
+<% layout('.././layouts/boilerplate') %> <%- include('../flash') %>
+<h1 class="display-3">Login</h1>
 <div class="row">
-  <div class="col-6 offset-3 mt-3">
-    <%- include('../flash') %>
-    <h1 class="display-3">Login</h1>
+  <div class="col-6 mt-3">
     <form action="/login" method="POST">
       <label class="form-label" for="username">Username</label>
       <input
@@ -25,5 +24,29 @@
       <br />
       <button class="btn btn-primary">Login</button>
     </form>
+  </div>
+  <div class="col-6 mt-5">
+    <div class="card">
+      <div class="card-body">
+        <a
+          class="btn btn-block btn-social btn-google"
+          href="/auth/google"
+          role="button"
+        >
+          <i class="fab fa-google"></i>
+          Sign In with Google
+        </a>
+      </div>
+      <div class="card-body">
+        <a
+          class="btn btn-block btn-social btn-facebook"
+          href="/auth/facebook"
+          role="button"
+        >
+          <i class="fab fa-facebook"></i>
+          Sign In with facebook
+        </a>
+      </div>
+    </div>
   </div>
 </div>

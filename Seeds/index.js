@@ -23,7 +23,7 @@ const seedDB = async () => {
       title: `${descriptors[Math.floor(Math.random() * descriptors.length)]} ${
         places[Math.floor(Math.random() * places.length)]
       }`,
-      author: "60d7fb46d386f23ea8154f28",
+      author: "60dad69aefe38b261c87df2a",
       image: "https://source.unsplash.com/collection/483251",
       price: `${Math.floor(Math.random() * 50)}`,
       location: `${cities[random].city}, ${cities[random].state}`,

@@ -1,8 +1,7 @@
-<% layout('.././layouts/boilerplate') %>
+<% layout('.././layouts/boilerplate') %> <%- include('../flash') %>
+<h1 class="display-3">Register</h1>
 <div class="row">
-  <div class="col-6 offset-3 mt-3">
-    <%- include('../flash') %>
-    <h1 class="display-3">Register</h1>
+  <div class="col-6 mt-3">
     <form action="/register" method="POST" novalidate class="needs-validation">
       <label class="form-label" for="email">Email</label>
       <input
@@ -35,5 +34,29 @@
       <br />
       <button class="btn btn-primary">Register</button>
     </form>
+  </div>
+  <div class="col-6 mt-5">
+    <div class="card social-block">
+      <div class="card-body">
+        <a
+          class="btn btn-block btn-social btn-google"
+          href="/auth/google"
+          role="button"
+        >
+          <i class="fab fa-google"></i>
+          Sign Up with Google
+        </a>
+      </div>
+      <div class="card-body">
+        <a
+          class="btn btn-block btn-social btn-facebook"
+          href="/auth/facebook"
+          role="button"
+        >
+          <i class="fab fa-facebook"></i>
+          Sign Up with facebook
+        </a>
+      </div>
+    </div>
   </div>
 </div>

@@ -12,7 +12,7 @@ module.exports.new = async (req, res, next) => {
 
 module.exports.show = async (req, res, next) => {
   const { id } = req.params;
-  const campground = await await Campground.findById(id)
+  const campground = await Campground.findById(id)
     .populate({
       path: "reviews",
       populate: "author",

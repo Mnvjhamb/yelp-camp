@@ -3,6 +3,7 @@ const path = require("path");
 const ejsMate = require("ejs-mate");
 const methodOverride = require("method-override");
 const ExpressError = require("./utils/ExpressError");
+const bodyParser = require("body-parser");
 
 const campgroundRouter = require("./routers/campground");
 const reviewRouter = require("./routers/review");
@@ -14,10 +15,11 @@ const session = require("express-session");
 const passport = require("passport");
 const localStrategy = require("passport-local");
 const User = require("./models/user");
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const FacebookStrategy = require("passport-facebook").Strategy;
 
 const mongoose = require("mongoose");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
-  useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
@@ -33,7 +35,7 @@ app.engine("ejs", ejsMate);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
-app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -41,7 +43,7 @@ app.use(
   session({
     secret: "Thisisasecret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       httpOnly: true,
       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
@@ -55,8 +57,60 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new localStrategy(User.authenticate()));
 
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID:
+        "982273360042-2989vdnq69e96og4286ab9knqs530pmo.apps.googleusercontent.com",
+      clientSecret: "d5qlUcU-jc9qPlQcVj7kDcQJ",
+      callbackURL: "http://localhost:3000/auth/google/campgrounds",
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      var user = await User.findOne({ googleId: profile.id });
+      console.log(profile);
+      if (!user) {
+        user = await new User({
+          email: profile._json.email,
+          username: profile.displayName,
+          googleId: profile.id,
+        }).save();
+      }
+      console.log(user);
+      done(null, user);
+    }
+  )
+);
+
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: "407583650451264",
+      clientSecret: "66be17db53078edc0e8ccbc3bfe0d7ea",
+      callbackURL: "http://localhost:3000/auth/facebook/campgrounds",
+      profileFields: ["id", "displayName", "emails"],
+    },
+    async function (accessToken, refreshToken, profile, done) {
+      var user = await User.findOne({ facebookId: profile.id });
+      if (!user) {
+        user = await new User({
+          email: profile._json.email,
+          username: profile.displayName,
+          facebookId: profile.id,
+        }).save();
+      }
+      done(null, user);
+    }
+  )
+);
 
 app.use((req, res, next) => {
   res.locals.currentUser = req.user;
