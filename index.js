@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require("express");
 const path = require("path");
 const ejsMate = require("ejs-mate");
@@ -19,6 +20,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const FacebookStrategy = require("passport-facebook").Strategy;
 
 const mongoose = require("mongoose");
+const { env } = require("process");
 mongoose.connect("mongodb://localhost:27017/yelp-camp", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -69,14 +71,12 @@ passport.deserializeUser(function (id, done) {
 passport.use(
   new GoogleStrategy(
     {
-      clientID:
-        "982273360042-2989vdnq69e96og4286ab9knqs530pmo.apps.googleusercontent.com",
-      clientSecret: "d5qlUcU-jc9qPlQcVj7kDcQJ",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/google/campgrounds",
     },
     async function (accessToken, refreshToken, profile, done) {
       var user = await User.findOne({ googleId: profile.id });
-      console.log(profile);
       if (!user) {
         user = await new User({
           email: profile._json.email,
@@ -84,7 +84,6 @@ passport.use(
           googleId: profile.id,
         }).save();
       }
-      console.log(user);
       done(null, user);
     }
   )
@@ -93,8 +92,8 @@ passport.use(
 passport.use(
   new FacebookStrategy(
     {
-      clientID: "407583650451264",
-      clientSecret: "66be17db53078edc0e8ccbc3bfe0d7ea",
+      clientID: process.env.FACEBOOK_CLIENT_ID,
+      clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/facebook/campgrounds",
       profileFields: ["id", "displayName", "emails"],
     },
