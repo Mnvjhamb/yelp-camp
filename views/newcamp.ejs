@@ -9,55 +9,54 @@
       method="POST"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
       <label class="form-label" for="title">Title</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="title"
         name="title"
       />
-      <br />
+
       <label class="form-label" for="price">Price</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="number"
         id="price"
         name="price"
       />
-      <br />
+
       <label class="form-label" for="location">Location</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="title"
         name="location"
       />
-      <br />
-      <!-- <label class="form-label" for="image">Image</label>
-      <div class="input-group mb-3">
-        <div class="custom-file">
-          <input type="file" class="custom-file-input" id="inputGroupFile02" />
-          <label class="custom-file-label" for="inputGroupFile02"
-            >Choose file</label
-          >
-        </div>
-        <div class="input-group-append">
-          <span class="input-group-text" id="">Upload</span>
-        </div>
-      </div> -->
+
+      <div class="mb-3">
+        <label for="formFile" class="form-label">Add Image(s)</label>
+        <input
+          class="form-control mb-2"
+          name="image"
+          type="file"
+          id="formFile"
+          multiple
+        />
+      </div>
       <label class="form-label" for="description">Description</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="title"
         name="description"
       />
-      <br />
+
       <button class="btn btn-primary">Add Camp</button>
     </form>
   </div>

@@ -11,50 +11,72 @@
       method="POST"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
       <label class="form-label" for="title">Title</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="title"
         value="<%= campground.title %> "
         name="title"
       />
-      <br />
+
       <label class="form-label" for="price">Price</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="price"
         value="<%= campground.price %>"
         name="price"
       />
-      <br />
+
       <label class="form-label" for="location">Location</label>
       <input
         required
-        class="form-control"
+        class="form-control mb-2"
         type="text"
         id="title"
         value="<%= campground.location %>"
         name="location"
       />
-      <br />
+
+      <div>
+        <label for="formFile" class="form-label">Add Image(s)</label>
+        <input
+          class="form-control mb-2"
+          name="image"
+          type="file"
+          id="formFile"
+          multiple
+        />
+      </div>
+
       <label class="form-label" for="description">Description</label>
       <textarea
         name="description"
         required
-        class="form-control"
+        class="form-control mb-2"
         id="title"
         cols="30"
         rows="4"
       >
 <%= campground.description %> </textarea
       >
-
-      <br />
+      <% campground.images.forEach((img, i)=>{ %>
+      <div class="mb-3">
+        <img class="img-thumbnail" src="<%= img.thumbnail %>" alt="" />
+        <input
+          type="checkbox"
+          name="deleteImages[]"
+          value="<%= img.filename %>"
+          id="img-<%=i %>"
+        />
+        <label for="img-<%= i %>">Delete</label>
+      </div>
+      <% }) %>
       <button class="btn btn-primary">Update Camp</button>
     </form>
   </div>

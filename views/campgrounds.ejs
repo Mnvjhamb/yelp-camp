@@ -1,7 +1,15 @@
 <% layout("../layouts/boilerplate") %>
+<style>
+  #map {
+    height: 500px;
+    width: 100%;
+  }
+</style>
 <div class="mt-1"></div>
 <%- include('./flash') %>
+
 <h1 class="display-1">All Campgrounds</h1>
+<div id="map"></div>
 
 <%for(var campground of campgrounds){%>
 <div class="card mt-4 m-3">
@@ -9,7 +17,7 @@
     <div class="col-md-4">
       <img
         style="height: 250px; width: 350px"
-        src="<%= campground.image %> "
+        src="<%= campground.images[0].url %> "
         class="img-fluid"
         alt=""
       />
@@ -17,6 +25,7 @@
     <div class="col-md-8">
       <div class="card-body">
         <h1 class="card-title"><%= campground.title %></h1>
+        <h1 class="card-title"><%= campground.properties.popupMarkup %></h1>
         <p class="card-text"><%= campground.description %></p>
         <h5 class="card-text"><%= campground.location %></h5>
         <form action="/campgrounds/<%= campground._id %> ">
@@ -27,3 +36,10 @@
   </div>
 </div>
 <%}%>
+<script>
+  const mapbox_accessToken = "<%- process.env.MAPBOX_TOKEN %>";
+  const campgrounds =
+    {features: <%- JSON.stringify(campgrounds) %>}
+</script>
+
+<script src="/mapCluster.js"></script>
